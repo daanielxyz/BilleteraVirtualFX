@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.RegistroController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="406.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.RegistroController">
+   <children>
+      <VBox layoutY="6.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="33.0" prefWidth="600.0" text="CREAR CUENTA NUEVA" />
+            <StackPane prefHeight="277.0" prefWidth="600.0">
+               <children>
+                  <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="330.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="156.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="438.0" minWidth="10.0" prefWidth="151.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Ingrese su identificación" />
+                        <Label prefHeight="17.0" prefWidth="358.0" text="Ingrese su nombre" GridPane.rowIndex="1" />
+                        <Label prefHeight="17.0" prefWidth="368.0" text="Ingrese su correo electronico" GridPane.rowIndex="2" />
+                        <Label prefHeight="17.0" prefWidth="310.0" text="Direccion de residencia" GridPane.rowIndex="3" />
+                        <Label prefHeight="17.0" prefWidth="356.0" text="Contraseña:" GridPane.rowIndex="4" />
+                        <PasswordField fx:id="campoContraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="campoDireccion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="campoCorreo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="campoNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="campoIdentificacion" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </StackPane>
+            <Pane>
+               <children>
+                  <Button alignment="CENTER" contentDisplay="BOTTOM" layoutX="89.0" layoutY="1.0" mnemonicParsing="false" onAction="#registrarUsuarioFX" prefHeight="56.0" prefWidth="126.0" text="Registrarse" />
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="271.0" layoutY="1.0" mnemonicParsing="false" onAction="#cerrarVentanaFX" prefHeight="57.0" prefWidth="138.0" text="Salir" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>

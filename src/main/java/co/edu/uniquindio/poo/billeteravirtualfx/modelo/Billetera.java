@@ -3,24 +3,44 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Random;
+
 import lombok.*;
 
 
 
-@Getter
-@Setter
 @Data
 @RequiredArgsConstructor
 public class Billetera {
-    @NonNull String numTarjeta;
-    @NonNull private double saldo;
-    @NonNull private Usuario propietario;
-    @NonNull private ArrayList<Transaccion> transacciones;
-    @NonNull private static final float COSTO = 200;
+    //ATRIBUTOS
+        @NonNull private double saldo;
+        @NonNull private Usuario propietario;
+        String numTarjeta = crearNumeroUnicoBilletera();
+        private ArrayList<Transaccion> transacciones = new ArrayList<>();
+        private static final float COSTO = 200;
+
+    //METODO PARA CREAR UN NUMERO UNICO DE BILLETERA
+        public String crearNumeroUnicoBilletera() {
+            StringBuilder sb = new StringBuilder();
+            Random random = new Random();
+            for (int i = 0; i < 10; i++) {
+                sb.append(random.nextInt(10));
+            }
+            return sb.toString();
+        }
+
+
+
+
+
+
+
+
+
 
     public Transaccion realizarTransaccion(Banco banco, float saldoTransferir, CATEGORIA categoria, Billetera origen, Billetera destino) throws Exception {
 
-        ArrayList<Billetera> billeteras = banco.getBilleteras();
+        ArrayList<Billetera> billeteras = banco.getListaBilleteras();
         boolean origenValido = false;
         boolean destinoValido = false;
         boolean transaccionValida = false;
@@ -119,7 +139,7 @@ public class Billetera {
     //METODO PARA OBTENER EL PORCENTAJE DE INGRESOS
     public double porcentajeIngresos(Billetera billetera, LocalDateTime fechaInicio, LocalDateTime fechaFinal, Banco banco, CATEGORIA categoria) throws Exception{
         double ingresosTotales = 0;
-        ArrayList<Transaccion> transacciones = banco.getTransacciones();
+        ArrayList<Transaccion> transacciones = banco.getListaTransacciones();
         for(Transaccion transaccion : transacciones) {
             if(transaccion.getDestinatario().equals(billetera) && transaccion.getCategoria().equals(categoria) && transaccion.getFecha().isAfter(fechaInicio) && transaccion.getFecha().isBefore(fechaFinal)){
                 ingresosTotales+= transaccion.getMonto();

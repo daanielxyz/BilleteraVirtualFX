@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="PanelPrincipal"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.PanelPrincipalController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox prefHeight="61.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="600.0" text="PANEL PRINCIPAL DE ADMINISTRACION" />
+                  <Label contentDisplay="CENTER" prefHeight="24.0" prefWidth="375.0" text="Nombre bienvenido a su banco, aquí se mostrarán sus transacciones." />
+                  <Label contentDisplay="CENTER" prefHeight="19.0" prefWidth="175.0" text="Numero de cuenta: numero" />
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <TableView fx:id="tablaTransacciones" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="134.0" text="Tipo" />
+                <TableColumn prefWidth="99.0" text="Fecha" />
+                  <TableColumn prefWidth="115.0" text="Valor" />
+                  <TableColumn prefWidth="126.0" text="Usuario" />
+                  <TableColumn prefWidth="125.0" text="Categoría" />
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <Pane prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="cerrarSesion" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="111.0" text="Cerrar Sesion" />
+                  <Button fx:id="hacerConsulta" layoutX="145.0" layoutY="11.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="92.0" text="Consultar" />
+                  <Button fx:id="hacerTransferencia" layoutX="262.0" layoutY="11.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="90.0" text="Transferir" />
+               </children>
+            </Pane>
+         </bottom>
+      </BorderPane>
+   </children>
 </AnchorPane>

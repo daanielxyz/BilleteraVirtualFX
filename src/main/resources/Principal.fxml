@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox prefHeight="305.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.PrincipalController">
    <children>
       <AnchorPane prefHeight="325.0" prefWidth="600.0">
@@ -56,12 +55,12 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="iniciarSesionFX" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="293.0" text="Iniciar Sesion">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#iniciarSesionFX" prefHeight="50.0" prefWidth="293.0" text="Iniciar Sesion">
                            <font>
                               <Font size="23.0" />
                            </font>
                         </Button>
-                        <Button fx:id="RegistrarseFX" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="289.0" text="Registrarse" GridPane.columnIndex="1">
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#registrarseFX" prefHeight="50.0" prefWidth="289.0" text="Registrarse" GridPane.columnIndex="1">
                            <font>
                               <Font size="23.0" />
                            </font>

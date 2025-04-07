@@ -8,8 +8,7 @@ import java.util.LinkedList;
 import lombok.*;
 
 
-@Getter
-@Setter
+
 @Data
 @RequiredArgsConstructor
 public class Transaccion {
