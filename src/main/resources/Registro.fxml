@@ -32,16 +32,16 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Ingrese su identificación" />
-                        <Label prefHeight="17.0" prefWidth="358.0" text="Ingrese su nombre" GridPane.rowIndex="1" />
+                        <Label text="Ingrese su nombre" />
+                        <Label prefHeight="17.0" prefWidth="358.0" text="Ingrese su identificación" GridPane.rowIndex="1" />
                         <Label prefHeight="17.0" prefWidth="368.0" text="Ingrese su correo electronico" GridPane.rowIndex="2" />
                         <Label prefHeight="17.0" prefWidth="310.0" text="Direccion de residencia" GridPane.rowIndex="3" />
                         <Label prefHeight="17.0" prefWidth="356.0" text="Contraseña:" GridPane.rowIndex="4" />
                         <PasswordField fx:id="campoContraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="campoDireccion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="campoCorreo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="campoNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="campoIdentificacion" GridPane.columnIndex="1" />
+                        <TextField fx:id="campoIdentificacion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="campoNombre" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </children>

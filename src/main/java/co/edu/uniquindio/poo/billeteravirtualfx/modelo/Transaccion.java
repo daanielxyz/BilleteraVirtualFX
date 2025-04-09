@@ -18,4 +18,12 @@ public class Transaccion {
     @NonNull private Billetera origen;
     @NonNull private float monto;
     private UUID identificador;
+
+    public String obtenerTipoTransaccion(Usuario usuarioActual) {
+        return origen.getPropietario().equals(usuarioActual) ? "Retiro" : "Depósito";
+    }
+
+    public Usuario obtenerUsuarioInvolucrado(Usuario usuarioActual) {
+        return origen.getPropietario().equals(usuarioActual) ? destinatario.getPropietario() : origen.getPropietario();
+    }
 }

@@ -28,7 +28,8 @@ public class InicioSesionController {
             try{
                 banco.iniciarSesion(usuarioIniciarSesion);
                 Alertas.mostrarAlertaInfo("Inicio de sesion exitoso.", "Bienvenido "+usuarioIniciarSesion.getNombre()+".");
-                NavegadorVentanas.navegarVentana("/PanelPrincipal.fxml", "Panel Principal");
+                NavegadorVentanas.navegarVentanaConUsuario("/PanelPrincipal.fxml", "Panel Principal", usuarioIniciarSesion);
+                cerrarVentanaFX();
 
             } catch (Exception e) {
                 Alertas.mostrarAlertaError("Error al iniciar sesion", e.getMessage());

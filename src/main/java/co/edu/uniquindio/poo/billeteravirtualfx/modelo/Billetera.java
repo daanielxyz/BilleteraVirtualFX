@@ -30,64 +30,62 @@ public class Billetera {
         }
 
 
+    //METODO PARA REALIZAR UNA TRANSACCION
+        public Transaccion realizarTransaccion(double saldoTransferir, CATEGORIA categoria, Billetera origen,  Billetera destino) throws Exception{
 
+            Transaccion transaccion=new Transaccion(LocalDateTime.now(), categoria,destino, origen, (float)saldoTransferir);
 
+            validarTransaccion(transaccion);
 
+            origen.restarSaldo(saldoTransferir,origen);
+            destino.sumarMonto(saldoTransferir,destino);
 
+            origen.agregarTransaccion(transaccion);
+            Banco.getInstancia().getListaTransacciones().add(transaccion);
 
-
-
-
-    public Transaccion realizarTransaccion(Banco banco, float saldoTransferir, CATEGORIA categoria, Billetera origen, Billetera destino) throws Exception {
-
-        ArrayList<Billetera> billeteras = banco.getListaBilleteras();
-        boolean origenValido = false;
-        boolean destinoValido = false;
-        boolean transaccionValida = false;
-        if (saldoTransferir + COSTO > saldo) {
-            throw new Exception("No hay saldo suficiente en la billetera ");
-        } else if (saldoTransferir <= 0) {
-            throw new Exception("No se permite transferir un saldo menor a cero");
+            return transaccion;
         }
-        while (!transaccionValida) {
-            for (Billetera billetera : billeteras) {
-                if (billetera.getNumTarjeta().equals(origen.getNumTarjeta())) {
-                    origenValido = true;
-                } else if (billetera.getNumTarjeta().equals(destino.getNumTarjeta())) {
-                    destinoValido = true;
-                }
-            }
-            if (origenValido && destinoValido) {
-                transaccionValida = true;
-            } else {
-                throw new Exception("La billetera destino o billetera origen no estan registradas en el banco");
+
+    //METODO PARA VALIDAR UNA TRANSACCION
+        public void validarTransaccion(Transaccion transaccion) throws Exception{
+            if(!Banco.getInstancia().billeteraExiste(transaccion.getOrigen())){
+                throw new Exception("La billetera de origen indicada no está registrada");
+            } else if(!Banco.getInstancia().usuarioExiste(transaccion.getOrigen().getPropietario())){
+                throw new Exception("El propietario de la billetera de origen no está registrado");
+            } else if(!Banco.getInstancia().billeteraExiste(transaccion.getDestinatario())){
+                throw new Exception("La billetera de destino indicada no está registrada");
+            } else if(!Banco.getInstancia().usuarioExiste(transaccion.getDestinatario().getPropietario())){
+                throw new Exception("El propietario de la billetera de destino no está registrado");
+            } else if(transaccion.getOrigen().getSaldo() < transaccion.getMonto()){
+                throw new Exception("Fondos insuficientes, porfavor recargar la billetera");
             }
         }
 
+    //METODO PARA AGREGAR UNA TRANSACCION A LA LISTA
+        public void agregarTransaccion(Transaccion transaccion){
+            transacciones.add(transaccion);
+        }
 
-        Transaccion transaccion = new Transaccion(LocalDateTime.now(), categoria, destino, origen, saldoTransferir);
+    //METODO PARA SUMAR MONTO
+        public void sumarMonto(double saldoTransferencia, Billetera billetera) {
+            double nuevoSaldoDestino = saldoTransferencia + billetera.getSaldo();
+            billetera.setSaldo(nuevoSaldoDestino);
+        }
+    //METODO PARA RESTAR MONTO
+        public void restarSaldo(double saldoTransferencia, Billetera billetera) {
+            double nuevoSaldoOrigen = billetera.getSaldo() - saldoTransferencia - COSTO;
+            System.out.println("Deducting: " + saldoTransferencia + " + COSTO (" + COSTO + ") from " + billetera.getSaldo() + " = " + nuevoSaldoOrigen);
+            billetera.setSaldo(nuevoSaldoOrigen);
+        }
 
-        origen.restarSaldo(saldoTransferir, origen);
-        destino.sumarMonto(saldoTransferir, destino);
 
-        origen.agregarTransaccion(transaccion);
 
-        return transaccion;
-    }
 
-    public void agregarTransaccion(Transaccion transaccion) {
-        transacciones.add(transaccion);
-    }
 
-    public void sumarMonto(double saldoTransferencia, Billetera billetera) {
-        double nuevoSaldoDestino = saldoTransferencia + billetera.getSaldo();
-        billetera.setSaldo(nuevoSaldoDestino);
-    }
 
-    public void restarSaldo(double saldoTransferencia, Billetera billetera) {
-        double nuevoSaldoOrigen = billetera.getSaldo() - saldoTransferencia - COSTO;
-        billetera.setSaldo(nuevoSaldoOrigen);
-    }
+
+
+
 
     public void recargarBilletera(double saldoARecargar) throws Exception {
         boolean recargaValida = false;

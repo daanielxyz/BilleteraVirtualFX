@@ -2,14 +2,9 @@ package co.edu.uniquindio.poo.billeteravirtualfx.modelo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.LinkedList;
-import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.*;
 
 
 @Getter
@@ -48,25 +43,26 @@ public class Banco {
                     throw new Exception("El ID no puede contener caracteres.");
                 } else if (listaUsuarios.stream().anyMatch(u -> u.getId().equals(usuario.getId()))){
                     throw new Exception("Ya existe un usuario registrado con este ID.");
-                } else if (!usuario.getCorreo().contains("@")) {
-                    throw new Exception("Ingrese un correo valido.");
+                } else if (!usuario.getCorreo().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                    throw new Exception("Ingrese un correo válido.");
                 }
             }
         //REGISTRAR USUARIO
             public void registrarUsuario(Usuario usuario) throws Exception{
                 validarUsuario(usuario);
                 listaUsuarios.add(usuario);
-                Billetera billetera = new Billetera(0, usuario);
+                Billetera billetera = new Billetera(1000, usuario);
                 listaBilleteras.add(billetera);
             }
         //INICIAR SESION
-            public void iniciarSesion(Usuario usuario) throws Exception{
-                for(int i=0; i<listaUsuarios.size(); i++){
-                    if(!listaUsuarios.get(i).getId().equals(usuario.getId()) && !listaUsuarios.get(i).getContraseña().equals(usuario.getContraseña())){
-                        throw new Exception("ID/Contraseña incorrectos.");
-                    }
+        public void iniciarSesion(Usuario usuario) throws Exception {
+            for (Usuario u : listaUsuarios) {
+                if (u.getId().equals(usuario.getId()) && u.getContraseña().equals(usuario.getContraseña())) {
+                    return;
                 }
             }
+            throw new Exception("ID/Contraseña incorrectos.");
+        }
         //ENCONTRAR USUARIO POR ID Y CONTRASEÑA
             public Usuario usuarioPorIdYContraseña(String id, String contraseña) throws Exception{
                 for(int i=0; i<listaUsuarios.size(); i++) {
@@ -75,5 +71,27 @@ public class Banco {
                     }
                 }
                 throw new Exception("No existe un usuario con ese id y esa contraseña");
+            }
+        //OBTENER BILLETERA DE UN USUARIO
+            public Billetera obtenerBilleteraDeUsuario(Usuario usuario) {
+                return listaBilleteras.stream()
+                        .filter(b -> b.getPropietario().equals(usuario))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró una billetera asociada al usuario"));
+            }
+            //OBTENER BILLETERA POR NUMERO DE CUENTA
+            public Billetera obtenerBilleteraNumCuenta(String numCuenta) {
+                return listaBilleteras.stream()
+                        .filter(b -> b.getNumTarjeta().equals(numCuenta))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró una billetera asociada a ese numero de cuenta"));
+            }
+        //VALIDAR SI UN USUARIO ESTA EN LA LISTA
+            public boolean usuarioExiste(Usuario usuario) {
+                return listaUsuarios.stream().anyMatch(u -> u.equals(usuario));
+            }
+        //VALIDAR SI UNA BILLETERA ESTA EN LA LISTA
+            public boolean billeteraExiste(Billetera billetera) {
+                return listaBilleteras.stream().anyMatch(b -> b.equals(billetera));
             }
 }
