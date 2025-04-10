@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.EditarDatosController">
+    <children>
+        <VBox prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="30.0" prefWidth="400.0" text="Editar Datos de Usuario" />
+                <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0" alignment="CENTER">
+                    <children>
+                        <Label text="Nombre:" />
+                        <TextField fx:id="campoNombre" prefWidth="200.0" />
+                        <Label text="Dirección:" />
+                        <TextField fx:id="campoDireccion" prefWidth="200.0" />
+                        <Label text="Correo:" />
+                        <TextField fx:id="campoCorreo" prefWidth="200.0" />
+                        <Label text="Contraseña:" />
+                        <PasswordField fx:id="campoContraseña" prefWidth="200.0" />
+                    </children>
+                </VBox>
+                <VBox prefHeight="70.0" prefWidth="400.0" alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Button onAction="#guardarCambiosFX" prefHeight="30.0" prefWidth="100.0" text="Guardar" />
+                        <Button onAction="#cerrarVentanaFX" prefHeight="30.0" prefWidth="100.0" text="Cancelar" />
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

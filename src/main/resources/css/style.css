@@ -1,0 +1,50 @@
+
+.button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+/* Efecto al pasar el mouse */
+.button:hover {
+    -fx-background-color: #007086 ;
+    -fx-cursor: hand;
+}
+
+/* Botones específicos por ID o clase */
+#btnGuardar {
+    -fx-background-color: #2196F3;
+}
+
+#btnGuardar:hover {
+    -fx-background-color: #007086 ;
+}
+
+#btnCancelar, #btnCerrar {
+    -fx-background-color: #2196F3;
+}
+
+#btnCancelar:hover, #btnCerrar:hover {
+    -fx-background-color: #007086 ;
+}
+
+#btnConsultar, #btnTransferir {
+    -fx-background-color: #2196F3;
+}
+
+#btnConsultar:hover, #btnTransferir:hover {
+    -fx-background-color: #007086 ;
+}
+
+
+#editarDatosUsuario {
+    -fx-background-color: #F57C00;
+}
+
+
+.anchor-pane, .vbox {
+    -fx-background-color: #F5F5F5;
+}

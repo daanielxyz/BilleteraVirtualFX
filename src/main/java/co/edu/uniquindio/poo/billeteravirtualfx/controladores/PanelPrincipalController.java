@@ -17,7 +17,7 @@ import lombok.Getter;
 
 import java.awt.*;
 
-public class PanelPrincipalController {
+public class PanelPrincipalController{
 
     //INSTANCIAS DE CODIGO
         private Usuario usuarioActual;
@@ -38,23 +38,29 @@ public class PanelPrincipalController {
 
 
     //INICIALIZACION DE LOS DATOS
-        public void inicializarUsuario(Usuario usuario) {
-            columnaTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerTipoTransaccion(usuarioActual)));
-            columnaFecha.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFecha().toString()));
-            columnaValor.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getMonto())));
-            columnaUsuario.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerUsuarioInvolucrado(usuarioActual).getNombre()));
-            columnaCategoria.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCategoria())));
-            tablaTransacciones.setItems(listaTransacciones);
-            this.usuarioActual = usuario;
-            this.billeteraActual = Banco.getInstancia().obtenerBilleteraDeUsuario(usuario);
-            this.listaTransacciones  = FXCollections.observableArrayList(Banco.getInstancia().getListaTransacciones());
+    public void inicializarUsuario(Usuario usuario) {
+        this.usuarioActual = usuario;
+        this.billeteraActual = Banco.getInstancia().obtenerBilleteraDeUsuario(usuario);
+        this.listaTransacciones = FXCollections.observableArrayList(billeteraActual.getTransacciones());
 
+        columnaTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerTipoTransaccion(usuarioActual)));
+        columnaFecha.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFecha().toString()));
+        columnaValor.setCellValueFactory(cellData -> {
+            Transaccion transaccion = cellData.getValue();
+            double valorMostrado = transaccion.getOrigen().equals(billeteraActual) ?
+                    transaccion.getMonto() + 200 :
+                    transaccion.getMonto();
+            return new SimpleStringProperty(String.valueOf(valorMostrado));
+        });
+        columnaUsuario.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().obtenerUsuarioInvolucrado(usuarioActual).getNombre()));
+        columnaCategoria.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCategoria())));
 
-            System.out.println("Sesión iniciada con: " + usuario.getNombre());
-            txtBienvenidaNombre.setText("Bienvenido "+usuario.getNombre()+ ", aqui se mostrarán todos sus movimientos.");
-            txtNumeroCuenta.setText("Numero de cuenta: " +billeteraActual.getNumTarjeta()+ ".");
-            txtSaldoCuenta.setText("Saldo disponible: " +billeteraActual.getSaldo()+ ".");
-        }
+        tablaTransacciones.setItems(listaTransacciones);
+
+        txtBienvenidaNombre.setText("Bienvenido " + usuario.getNombre() + ", aquí se mostrarán todos sus movimientos.");
+        txtNumeroCuenta.setText("Número de cuenta: " + billeteraActual.getNumTarjeta() + ".");
+        txtSaldoCuenta.setText("Saldo disponible: " + billeteraActual.getSaldo() + ".");
+    }
 
 
     //METODOS DEL CONTROLADOR
@@ -63,17 +69,29 @@ public class PanelPrincipalController {
             Stage stage = (Stage) tablaTransacciones.getScene().getWindow();
             stage.close();
         }
-        @FXML
-        public void hacerTransferenciaFX(){
 
-            NavegadorVentanas.navegarVentanaTransferenciaConUsuario("/Transferencia.fxml", "Realizar Transferencia", usuarioActual);
-        }
         @FXML
-        public void hacerConsultaFX(){
+        public void hacerTransferenciaFX() {
 
+            NavegadorVentanas.navegarVentanaConBilletera("/Transferencia.fxml", "Realizar Transferencia", billeteraActual, () -> {
+                        listaTransacciones.setAll(billeteraActual.getTransacciones());
+                        txtSaldoCuenta.setText("Saldo disponible: " + billeteraActual.getSaldo() + ".");
+                    }
+            );
         }
+
         @FXML
-        public void editarDatosFX(){
-
+        public void hacerConsultaFX() {
+            NavegadorVentanas.navegarVentanaConsulta("/ConsultaTransacciones.fxml", "Consulta de Transacciones", billeteraActual, usuarioActual);
         }
+
+    @FXML
+    public void editarDatosFX() {
+        Stage editStage = NavegadorVentanas.navegarVentanaEditarDatos("/EditarDatos.fxml", "Editar Datos", usuarioActual);
+        if (editStage != null) {
+            editStage.setOnHidden(event -> {
+                txtBienvenidaNombre.setText("Bienvenido " + usuarioActual.getNombre() + ", aquí se mostrarán todos sus movimientos.");
+            });
+        }
+    }
 }

@@ -4,71 +4,99 @@ import co.edu.uniquindio.poo.billeteravirtualfx.helpers.Alertas;
 import co.edu.uniquindio.poo.billeteravirtualfx.modelo.Banco;
 import co.edu.uniquindio.poo.billeteravirtualfx.modelo.Billetera;
 import co.edu.uniquindio.poo.billeteravirtualfx.modelo.CATEGORIA;
-import co.edu.uniquindio.poo.billeteravirtualfx.modelo.Usuario;
+import co.edu.uniquindio.poo.billeteravirtualfx.modelo.Transaccion;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class TransferenciaController implements Initializable {
 
 
-public class TransferenciaController {
+    @FXML private TextField campoCuentaATransferir;
+    @FXML private TextField campoCantidadATransferir;
+    @FXML private ComboBox<CATEGORIA> categoriaComboBox;
+    @FXML private Button Transferir;
+    @FXML private Button Cancelar;
 
 
-    //INSTANCIAS
-        ObservableList<CATEGORIA> categoriasTransferencia = FXCollections.observableArrayList(CATEGORIA.values());
-        private Usuario usuarioActual;
-        private Billetera billeteraActual;
-        private Billetera billeteraOrigen;
-        private Runnable callbackActualizarTabla;
-        @FXML private ComboBox<CATEGORIA> categoriaComboBox;
-        @FXML private TextField campoCuentaATransferir;
-        @FXML private TextField campoCantidadATransferir;
-        public Button Transferir;
-        public Button Cancelar;
+    private Banco banco = Banco.getInstancia();
+    private Billetera billeteraOrigen;
 
-    //INCIALIZACION DE DATOS
-        public void inicializarUsuario(Usuario usuario, Runnable callback) {
-            this.usuarioActual = usuario;
-            this.billeteraActual = Banco.getInstancia().obtenerBilleteraDeUsuario(usuario);
-            this.callbackActualizarTabla = callback;
-            categoriaComboBox.setItems(categoriasTransferencia);
 
-        }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
 
-    //METODOS
-        /*@FXML
-        private void realizarTransferenciaFX(){
-            try {
-                float monto = Float.parseFloat(campoCantidadATransferir.getText());
-                this.billeteraOrigen = Banco.getInstancia().obtenerBilleteraNumCuenta(campoCuentaATransferir.getText());
-                billeteraActual.realizarTransaccion(monto, categoriaComboBox.getValue(), billeteraActual, billeteraOrigen);
-            } catch (Exception e){
-                Alertas.mostrarAlertaError("Error",  e.getMessage());
-            }
-        }*/
+        categoriaComboBox.setItems(FXCollections.observableArrayList(CATEGORIA.values()));
+    }
+
+
+    public void inicializarBilletera(Billetera billeteraOrigen) {
+        this.billeteraOrigen = billeteraOrigen;
+    }
+
+
     @FXML
-    private void realizarTransferenciaFX() {
+    public void realizarTransferenciaFX() {
         try {
-            double monto = Double.parseDouble(campoCantidadATransferir.getText());
-            this.billeteraOrigen = Banco.getInstancia().obtenerBilleteraNumCuenta(campoCuentaATransferir.getText());
-            System.out.println("Saldo actual de billeteraActual: " + billeteraActual.getSaldo());
-            System.out.println("Monto a transferir: " + monto);
-            billeteraActual.realizarTransaccion(monto, categoriaComboBox.getValue(), billeteraActual, billeteraOrigen);
-            Alertas.mostrarAlertaInfo("Transaccion exitosa!", +monto+"$ transferidos a "+billeteraOrigen.getPropietario().getNombre());
-            cancelarTransaccionFX();
+
+            String numCuentaDestino = campoCuentaATransferir.getText();
+            String cantidadStr = campoCantidadATransferir.getText();
+            CATEGORIA categoria = categoriaComboBox.getValue();
+
+            if (numCuentaDestino.isEmpty() || cantidadStr.isEmpty() || categoria == null) {
+                Alertas.mostrarAlertaError("Error", "Todos los campos son obligatorios.");
+                return;
+            }
+
+
+            double cantidad;
+            try {
+                cantidad = Double.parseDouble(cantidadStr);
+                if (cantidad <= 0) {
+                    throw new NumberFormatException("La cantidad debe ser positiva.");
+                }
+            } catch (NumberFormatException e) {
+                Alertas.mostrarAlertaError("Error", "Ingrese una cantidad válida.");
+                return;
+            }
+
+
+            Billetera billeteraDestino = banco.obtenerBilleteraNumCuenta(numCuentaDestino);
+
+
+            if (billeteraOrigen.getNumTarjeta().equals(billeteraDestino.getNumTarjeta())) {
+                Alertas.mostrarAlertaError("Error", "No puedes transferir a tu propia cuenta.");
+                return;
+            }
+
+
+            Transaccion transaccion = billeteraOrigen.realizarTransaccion(cantidad, categoria, billeteraOrigen, billeteraDestino);
+
+
+            Alertas.mostrarAlertaInfo("Éxito", "Transferencia de " + cantidad + " realizada con éxito a " + billeteraDestino.getPropietario().getNombre());
+            cerrarVentana();
+
         } catch (Exception e) {
-            Alertas.mostrarAlertaError("Error", e.getMessage());
+            Alertas.mostrarAlertaError("Error al realizar transferencia", e.getMessage());
         }
     }
-        @FXML
-        private void cancelarTransaccionFX(){
-            Stage stage = (Stage) categoriaComboBox.getScene().getWindow();
-            stage.close();
-        }
 
 
+    @FXML
+    public void cancelarTransaccionFX() {
+        cerrarVentana();
+    }
+
+
+    private void cerrarVentana() {
+        Stage stage = (Stage) campoCuentaATransferir.getScene().getWindow();
+        stage.close();
+    }
 }

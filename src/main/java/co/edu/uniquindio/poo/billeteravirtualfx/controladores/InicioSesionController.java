@@ -23,9 +23,10 @@ public class InicioSesionController {
 
     //METODOS DEL CONTROLADOR
         @FXML
-        public void iniciarSesionFX() throws Exception {
-            Usuario usuarioIniciarSesion = banco.usuarioPorIdYContraseña(campoIdentificacion.getText(), campoContraseña.getText());
+        public void iniciarSesionFX(){
+
             try{
+                Usuario usuarioIniciarSesion = banco.usuarioPorIdYContraseña(campoIdentificacion.getText(), campoContraseña.getText());
                 banco.iniciarSesion(usuarioIniciarSesion);
                 Alertas.mostrarAlertaInfo("Inicio de sesion exitoso.", "Bienvenido "+usuarioIniciarSesion.getNombre()+".");
                 NavegadorVentanas.navegarVentanaConUsuario("/PanelPrincipal.fxml", "Panel Principal", usuarioIniciarSesion);

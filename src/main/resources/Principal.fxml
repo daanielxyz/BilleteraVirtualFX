@@ -13,7 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import java.net.URL?>
 <VBox prefHeight="305.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.PrincipalController">
+   <stylesheets>
+      <URL value="@css/style.css" />
+   </stylesheets>
    <children>
       <AnchorPane prefHeight="325.0" prefWidth="600.0">
          <children>

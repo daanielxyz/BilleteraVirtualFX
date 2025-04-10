@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.PanelPrincipalController">
-   <children>
+    <stylesheets>
+        <URL value="@css/style.css" />
+    </stylesheets>
+    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <VBox prefHeight="61.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -36,10 +41,15 @@
          <bottom>
             <Pane prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#cerrarSesionFX" prefHeight="43.0" prefWidth="111.0" text="Cerrar Sesion" />
-                  <Button layoutX="145.0" layoutY="11.0" mnemonicParsing="false" onAction="#hacerConsultaFX" prefHeight="43.0" prefWidth="92.0" text="Consultar" />
-                  <Button layoutX="262.0" layoutY="11.0" mnemonicParsing="false" onAction="#hacerTransferenciaFX" prefHeight="42.0" prefWidth="90.0" text="Transferir" />
-                  <Button fx:id="editarDatosUsuario" layoutX="514.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarDatosFX" prefHeight="37.0" prefWidth="36.0" text="Button" />
+                  <Button fx:id="btnCerrarSesion" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#cerrarSesionFX" prefHeight="43.0" prefWidth="111.0" text="Cerrar Sesion" />
+                  <Button fx:id="btnConsultar" layoutX="145.0" layoutY="11.0" mnemonicParsing="false" onAction="#hacerConsultaFX" prefHeight="43.0" prefWidth="92.0" text="Consultar" />
+                  <Button fx:id="btnTransferir" layoutX="262.0" layoutY="11.0" mnemonicParsing="false" onAction="#hacerTransferenciaFX" prefHeight="42.0" prefWidth="90.0" text="Transferir" />
+                   <Button fx:id="editarDatosUsuario" contentDisplay="CENTER" layoutX="429.0" layoutY="14.0" mnemonicParsing="false" onAction="#editarDatosFX" prefHeight="38.0" prefWidth="143.0" text="Editar datos de usuario">
+                       <graphic>
+                           <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           </ImageView>
+                       </graphic>
+                   </Button>
                </children>
             </Pane>
          </bottom>

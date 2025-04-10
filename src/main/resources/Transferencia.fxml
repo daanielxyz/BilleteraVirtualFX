@@ -12,9 +12,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import java.net.URL?>
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="269.0" prefWidth="374.0"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.TransferenciaController">
+            fx:controller="co.edu.uniquindio.poo.billeteravirtualfx.controladores.TransferenciaController"> <stylesheets>
+    <URL value="@css/style.css" />
+</stylesheets>
     <VBox prefHeight="266.0" prefWidth="455.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Label alignment="CENTER" prefHeight="27.0" prefWidth="600.0" text="TRANSFERENCIA"/>

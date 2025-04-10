@@ -41,6 +41,7 @@ public class Billetera {
             destino.sumarMonto(saldoTransferir,destino);
 
             origen.agregarTransaccion(transaccion);
+            destino.agregarTransaccion(transaccion);
             Banco.getInstancia().getListaTransacciones().add(transaccion);
 
             return transaccion;
@@ -56,7 +57,7 @@ public class Billetera {
                 throw new Exception("La billetera de destino indicada no está registrada");
             } else if(!Banco.getInstancia().usuarioExiste(transaccion.getDestinatario().getPropietario())){
                 throw new Exception("El propietario de la billetera de destino no está registrado");
-            } else if(transaccion.getOrigen().getSaldo() < transaccion.getMonto()){
+            } else if(transaccion.getOrigen().getSaldo() < transaccion.getMonto() + COSTO){
                 throw new Exception("Fondos insuficientes, porfavor recargar la billetera");
             }
         }
@@ -77,6 +78,23 @@ public class Billetera {
             System.out.println("Deducting: " + saldoTransferencia + " + COSTO (" + COSTO + ") from " + billetera.getSaldo() + " = " + nuevoSaldoOrigen);
             billetera.setSaldo(nuevoSaldoOrigen);
         }
+
+     //METODO CONSULTAR TRANSACCIONES DADO TIEMPO
+     public ArrayList<Transaccion> consultarTransaccionesTiempo(LocalDateTime fechaInicio, LocalDateTime fechaFinal) throws Exception {
+         if (fechaInicio.isAfter(fechaFinal)) {
+             throw new Exception("La fecha final debe ser posterior a la fecha inicial.");
+         }
+         ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
+         for (Transaccion transaccion : transacciones) {
+             if (transaccion.getFecha().isAfter(fechaInicio) && transaccion.getFecha().isBefore(fechaFinal)) {
+                 listaTransacciones.add(transaccion);
+             }
+         }
+         return listaTransacciones;
+     }
+
+
+
 
 
 
@@ -102,25 +120,7 @@ public class Billetera {
         }
     }
 
-    //METODO CONSULTAR TRANSACCIONES DADO TIEMPO
-    public ArrayList<Transaccion> consultarTransaccionesTiempo(LocalDateTime fechaInicio, LocalDateTime fechaFinal) throws Exception {
-        ArrayList<Transaccion> listaTransacciones = new ArrayList<>();
-        if (fechaInicio.isAfter(fechaFinal)) {
-            throw new Exception("La segunda fecha tiene que ser despues de la primera");
-        }
-        boolean tiempoValido = false;
-        while (!tiempoValido) {
-            for (Transaccion transaccion : transacciones) {
-                if (transaccion.getFecha().isAfter(fechaInicio) && transaccion.getFecha().isBefore(fechaFinal)) {
-                    listaTransacciones.add(transaccion);
-                    tiempoValido = true;
-                } else {
-                    throw new Exception("No hay transacciones realizadas por esta billetera en ese intervalo de tiempo.");
-                }
-            }
-        }
-        return listaTransacciones;
-    }
+
 
     //METODO PARA OBTENER EL PORCENTAJE DE GASTOS
     public double porcentajeGastos(Billetera billetera, LocalDateTime fechaInicio, LocalDateTime fechaFinal, CATEGORIA categoria) throws Exception {
